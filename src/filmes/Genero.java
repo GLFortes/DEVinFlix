@@ -1,0 +1,6 @@
+package filmes;
+
+public enum Genero {
+    ACAO, COMEDIA, DRAMA, FICCAO, FANTASIA, SUSPENSE, TERROR, AVENTURA, ANIMACAO,
+    ROMANCE, DOCUMENTARIO, OUTRO;
+}
