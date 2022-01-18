@@ -8,12 +8,21 @@ public class Usuario {
     protected String nome;
     protected String endereco;
     protected String dataNascimento;
+    protected ArrayList<Filme> filmesRecomendados = new ArrayList<>();
 
     public Usuario( String nome, String endereco, String dataNascimento ) {
         this.nome = nome;
         this.endereco = endereco;
         this.dataNascimento = dataNascimento;
+        this.filmesRecomendados = new ArrayList<>();
     }
+
+    public Usuario(String nome, String dataNascimento) {
+        this.nome = nome;
+        this.dataNascimento = dataNascimento;
+    }
+
+    public Usuario(){}
 
 
     public String getNome() {
@@ -38,6 +47,14 @@ public class Usuario {
 
     public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
+    }
+
+    public ArrayList<Filme> getFilmesRecomendados() {
+        return filmesRecomendados;
+    }
+
+    public void setFilmesRecomendados(ArrayList<Filme> filmesRecomendados) {
+        this.filmesRecomendados = filmesRecomendados;
     }
 
     @Override

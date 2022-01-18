@@ -10,13 +10,13 @@ import java.util.Scanner;
 import static filmes.Genero.*;
 
 public class Plataforma {
-    public void curtirFilme(Filme filme, Usuario usuario, boolean curtir){
-        if (curtir){
-            filme.setCurtidas(filme.getCurtidas() + 1);
-        }else{
-            filme.setDescurtidas(filme.getDescurtidas() + 1);
-        }
-    }
+//    public void curtirFilme(String filme, boolean curtir){
+//        if (curtir){
+//            filme.setCurtidas(filme.getCurtidas() + 1);
+//        }else{
+//            filme.setDescurtidas(filme.getDescurtidas() + 1);
+//        }
+//    }
 
     public void recomendarFilme(Filme filme, Usuario usuario, String msg) {
         Scanner scanner = new Scanner(System.in);
@@ -35,10 +35,9 @@ public class Plataforma {
         System.out.println("Usuário logado com sucesso");
     }
     public void ImprimeOpcoes(){
-        System.out.println("1 - Procurar Filme");
+        System.out.println("1 - Curtir Filme");
         System.out.println("2 - Recomendar Filme");
         System.out.println("3 - Sair");
-
     }
 
 
@@ -59,6 +58,7 @@ public class Plataforma {
         usuarios.add(new UsuarioAgregado("Julia", "Alvorada", "20/03/2000"));
         usuarios.add(new UsuarioAgregado("Juvencio", "Alvorada", "09/03/1969"));
         System.out.println(usuarios.toString());
+        System.out.println("\nFilmes recomendados: " + usuarios.get(0).getFilmesRecomendados().toString());
 
         while (true) {
             devinflix.ImprimeOpcoes();
@@ -66,15 +66,33 @@ public class Plataforma {
             String opcao = scanner.nextLine();
             switch (opcao){
                 case "1":
-                    System.out.println("Digite o nome do filme:");
+                    System.out.println("Escolha um filme do catálogo para curtir ou descurtir:");
+                    //mostrar apenas os titulos
+                    for (Filme filme : catalogoFilmes) {
+                        System.out.println(filme.getTitulo());
+                    }
                     String nomeFilme = scanner.nextLine();
                     for (Filme filme : catalogoFilmes) {
-                        if (filme.getTitulo().equals(nomeFilme)) {
-                            System.out.println("Filme escolhido: \n" + filme.toString());
-                        }else{
+                        if (filme.getTitulo().equalsIgnoreCase(nomeFilme)) {
+                            System.out.println("Curtir ou descurtir?");
+                            String curtir = scanner.nextLine();
+                            if (curtir.equalsIgnoreCase("curtir")){
+                                for(Filme filme2 : catalogoFilmes){
+                                    if(filme2.getTitulo().equalsIgnoreCase(nomeFilme)){
+                                        filme.setCurtidas(filme.getCurtidas() + 1);
+                                    }else if(filme2.getTitulo().equalsIgnoreCase(nomeFilme)){
+                                        filme.setDescurtidas(filme.getDescurtidas() + 1);
+                            break;
+                        }
+                            }
+                        }
+                    }else{
                             System.out.println("Filme não encontrado");
+                            break;
+
                         }
                     }
+
                     break;
                 case "2":
                     System.out.println("--RECOMENDAR FILME--");
@@ -112,13 +130,8 @@ public class Plataforma {
                             System.out.println(filmesSugeridos);
                         }
                         break;
-
                     }
-
-
-
             }
-
         }
     }
 }
