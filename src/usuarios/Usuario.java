@@ -2,19 +2,30 @@ package usuarios;
 
 import filmes.Filme;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Objects;
+
 
 public class Usuario {
-    protected String nome;
-    protected String endereco;
-    protected String dataNascimento;
-    protected ArrayList<Filme> filmesRecomendados = new ArrayList<>();
+    private String nome;
+    private String endereco;
+    private String dataNascimento;
+    private String senha;
+    private HashSet<String> filmesRecomendados = new HashSet<>();
+    private HashSet<Filme> filmesCurtidos = new HashSet<>();
+    private HashSet<Filme> filmesDescurtidos = new HashSet<>();
 
-    public Usuario( String nome, String endereco, String dataNascimento ) {
+
+    public Usuario(String nome, String endereco, String dataNascimento, String senha) {
         this.nome = nome;
         this.endereco = endereco;
         this.dataNascimento = dataNascimento;
-        this.filmesRecomendados = new ArrayList<>();
+        this.senha = senha;
+        this.filmesRecomendados = filmesRecomendados;
+        this.filmesCurtidos = filmesCurtidos;
+        this.filmesDescurtidos = filmesDescurtidos;
     }
 
     public Usuario(String nome, String dataNascimento) {
@@ -24,6 +35,21 @@ public class Usuario {
 
     public Usuario(){}
 
+    public HashSet<Filme> getFilmesCurtidos() {
+        return filmesCurtidos;
+    }
+
+    public void setFilmesCurtidos(HashSet<Filme> filmesCurtidos) {
+        this.filmesCurtidos = filmesCurtidos;
+    }
+
+    public HashSet<Filme> getFilmesDescurtidos() {
+        return filmesDescurtidos;
+    }
+
+    public void setFilmesDescurtidos(HashSet<Filme> filmesDescurtidos) {
+        this.filmesDescurtidos = filmesDescurtidos;
+    }
 
     public String getNome() {
         return nome;
@@ -49,12 +75,23 @@ public class Usuario {
         this.dataNascimento = dataNascimento;
     }
 
-    public ArrayList<Filme> getFilmesRecomendados() {
+    public HashSet<String> getFilmesRecomendados() {
         return filmesRecomendados;
     }
 
-    public void setFilmesRecomendados(ArrayList<Filme> filmesRecomendados) {
+    public void setFilmesRecomendados(HashSet<String> filmesRecomendados) {
         this.filmesRecomendados = filmesRecomendados;
+    }
+    public void addFilmes(String filme) {
+        this.filmesRecomendados.add(filme);
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     @Override
@@ -68,5 +105,18 @@ public class Usuario {
 
     public void recomendarFilme(Filme filme, String motivo) {
         System.out.println(this.nome + " recomendou o filme " + filme.getTitulo() + " porque " + motivo);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return Objects.equals(nome, usuario.nome) && Objects.equals(endereco, usuario.endereco) && Objects.equals(dataNascimento, usuario.dataNascimento) && Objects.equals(filmesRecomendados, usuario.filmesRecomendados) && Objects.equals(filmesCurtidos, usuario.filmesCurtidos) && Objects.equals(filmesDescurtidos, usuario.filmesDescurtidos);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome, endereco, dataNascimento, filmesRecomendados, filmesCurtidos, filmesDescurtidos);
     }
 }
