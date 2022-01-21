@@ -11,38 +11,26 @@ import java.util.Set;
 import static filmes.Genero.*;
 
 public class Plataforma {
-    private Set<Usuario> usuarios;
+    private Set<Usuario> usuarios = new HashSet<>();
     public Plataforma(){
-        this.usuarios = new HashSet<Usuario>();
         usuarios.add(new Usuario("Guilherme", "POA","24/08/1995", "12345"));
         usuarios.add(new Usuario("Julia", "Alvorada", "20/03/2000", "54321"));
         usuarios.add(new Usuario("Juvencio", "Alvorada", "09/03/1969","123456"));
     }
-    public Usuario login(String nome, String senha){
+    public void addUser(Usuario usuario){
+        usuarios.add(usuario);
+    }
+    public boolean login(String nome, String senha){
+        boolean check = false;
         for (Usuario usuario : usuarios) {
             if(usuario.getNome().equals(nome) && usuario.getSenha().equals(senha)){
-                return usuario;
+                check = true;
+                return true;
             }
+            }return false;
         }
-        return null;
-    }
 
-    public void recomendarFilme(Filme filme, Usuario usuario, String msg) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Por quê você recomendaria este filme?");
-        String motivo = scanner.nextLine();
-    }
 
-    public void recomendarFilme(Filme filme, Usuario usuario) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Por quê você recomendaria este filme?");
-        String motivo = scanner.nextLine();
-        usuario.recomendarFilme(filme, motivo);
-    }
-
-    public void Login(String username){
-        System.out.println("Usuário logado com sucesso");
-    }
     public void ImprimeOpcoes(){
         System.out.println("1 - Curtir Filme");
         System.out.println("2 - Recomendar Filme");
@@ -52,15 +40,20 @@ public class Plataforma {
 
 
     public static void main(String[] args) {
+        while (true) {
         Scanner scanner = new Scanner(System.in);
         Plataforma devinflix = new Plataforma();
         System.out.println("--LOGIN__");
         System.out.println("Digite seu nome de usuário: ");
-        String logedUser = scanner.nextLine();
+        String userName = scanner.nextLine();
         System.out.println("Digite sua senha: ");
-        String logedPassword = scanner.nextLine();
-        devinflix.login(logedUser, logedPassword);
-        if (devinflix.login(logedUser, logedPassword) != null) {
+        String userPass = scanner.nextLine();
+        devinflix.login(userName, userPass);
+
+        for (Usuario usuariolog : devinflix.usuarios) {
+            if (usuariolog.getNome().equalsIgnoreCase(userName) && usuariolog.getSenha().equals(userPass)) {
+                System.out.println("Bem vindo " + usuariolog.getNome());
+                Usuario usuarioLogado = usuariolog;
 
             HashSet<String> filmesSugeridos = new HashSet<String>();
             HashSet<Filme> catalogoFilmes = new HashSet<Filme>();
@@ -76,15 +69,12 @@ public class Plataforma {
             System.out.println(usuarios.toString());
             System.out.println("\nFilmes recomendados: " + usuarios.get(0).getFilmesRecomendados().toString());
 
-            while (true) {
                 devinflix.ImprimeOpcoes();
                 System.out.println("Escolha uma opção:");
                 String opcao = scanner.nextLine();
                 switch (opcao) {
                     //CURTIR OU DESCURTIR FILME
                     case "1":
-                        System.out.println("Quem está fazendo a operação?");
-                        String usuarioLogado = scanner.nextLine();
                         System.out.println("Escolha um filme do catálogo para curtir ou descurtir:");
                         for (Filme filme : catalogoFilmes) {
                             System.out.println(filme.getTitulo());
@@ -92,27 +82,22 @@ public class Plataforma {
                         String nomeFilme = scanner.nextLine();
                         for (Filme filme : catalogoFilmes) {
                             if (filme.getTitulo().equalsIgnoreCase(nomeFilme)) {
+                                Filme likedFilme = filme;
                                 System.out.println("Curtir ou descurtir?");
                                 String curtir = scanner.nextLine();
                                 if (curtir.equalsIgnoreCase("curtir")) {
-                                    for (Filme filme2 : catalogoFilmes) {
-                                        if (filme2.getTitulo().equalsIgnoreCase(nomeFilme)) {
-                                            filme.setCurtidas(filme.getCurtidas() + 1);
-                                            for (Usuario usuario : usuarios) {
-                                                if (usuario.getNome().equalsIgnoreCase(usuarioLogado)) {
-                                                }
-                                            }
-                                        } else if (filme2.getTitulo().equalsIgnoreCase(nomeFilme)) {
-                                            filme.setDescurtidas(filme.getDescurtidas() + 1);
-                                            break;
-                                        }
-                                    }
+                                    System.out.println("Curtiu!");
+                                    likedFilme.setCurtidas(likedFilme.getCurtidas() + 1);
+                                    usuarioLogado.curtirFilme(likedFilme);
+
+                            }else {
+                                    System.out.println("Descurtiu!");
+                                    likedFilme.setCurtidas(likedFilme.getCurtidas() - 1);
                                 }
-                            } else {
+                            }else {
                                 System.out.println("Filme não encontrado");
                                 break;
-                            }
-                        }
+                        }}
                         break;
                     //RECOMENDAR FILME
                     case "2":
@@ -166,9 +151,21 @@ public class Plataforma {
                             break;
                         }
                 }
-            }
-        } else {
+
+         }else {
             System.out.println("Usuário não encontrado");
             System.out.println("Deseja cadastrar um novo usuário? (S/N)");
-        }
-    }}cd 
+            String resposta = scanner.nextLine();
+            if (resposta.equalsIgnoreCase("s")) {
+                System.out.print("Digite o nome do usuário:");
+                String nomeCadastro = scanner.nextLine();
+                System.out.print("Digite o endereço do usuário:");
+                String enderecoCadastro = scanner.nextLine();
+                System.out.print("Digite a data de nascimento do usuário:");
+                String dataNascimentoCadastro = scanner.nextLine();
+                System.out.print("Cadastre a senha: ");
+                String senhaCadastro = scanner.nextLine();
+                Usuario newUser = new Usuario(nomeCadastro, enderecoCadastro, dataNascimentoCadastro, senhaCadastro);
+                devinflix.addUser(newUser);
+            }
+        }}}}}

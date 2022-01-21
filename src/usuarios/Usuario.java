@@ -104,6 +104,10 @@ public class Usuario {
         System.out.println(this.nome + " recomendou o filme " + filme.getTitulo() + " \nMotivo: " + motivo);
         filmesRecomendados.add(filme.getTitulo());
     }
+    public void curtirFilme(Filme filme) {
+        System.out.println(this.nome + " curtiu o filme " + filme.getTitulo());
+        filmesCurtidos.add(filme);
+    }
 
     @Override
     public boolean equals(Object o) {
