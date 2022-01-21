@@ -11,21 +11,21 @@ import java.util.Set;
 import static filmes.Genero.*;
 
 public class Plataforma {
-//    private Set<Usuario> usuarios;
-//    public Plataforma(){
-//        this.usuarios = new HashSet<Usuario>();
-//        usuarios.add(new Usuario("Guilherme", "POA","24/08/1995", "12345"));
-//        usuarios.add(new Usuario("Julia", "Alvorada", "20/03/2000", "54321"));
-//        usuarios.add(new Usuario("Juvencio", "Alvorada", "09/03/1969","123456"));
-//    }
-//    public Usuario login(String nome, String senha){
-//        for (Usuario usuario : usuarios) {
-//            if(usuario.getNome().equals(nome) && usuario.getSenha().equals(senha)){
-//                return usuario;
-//            }
-//        }
-//        return null;
-//    }
+    private Set<Usuario> usuarios;
+    public Plataforma(){
+        this.usuarios = new HashSet<Usuario>();
+        usuarios.add(new Usuario("Guilherme", "POA","24/08/1995", "12345"));
+        usuarios.add(new Usuario("Julia", "Alvorada", "20/03/2000", "54321"));
+        usuarios.add(new Usuario("Juvencio", "Alvorada", "09/03/1969","123456"));
+    }
+    public Usuario login(String nome, String senha){
+        for (Usuario usuario : usuarios) {
+            if(usuario.getNome().equals(nome) && usuario.getSenha().equals(senha)){
+                return usuario;
+            }
+        }
+        return null;
+    }
 
     public void recomendarFilme(Filme filme, Usuario usuario, String msg) {
         Scanner scanner = new Scanner(System.in);
@@ -54,108 +54,121 @@ public class Plataforma {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Plataforma devinflix = new Plataforma();
-        ArrayList<String> sugestoes = new ArrayList<String>();
-        HashSet<String>filmesSugeridos = new HashSet<String>();
-        HashSet<Filme> catalogoFilmes = new HashSet<Filme>();
-        catalogoFilmes.add(new Filme("Avengers Ultimato", "Os caras tretam com o Thanos", ACAO));
-        catalogoFilmes.add(new Filme("Miranha Sem Volta pra Casa", "Peter Parker estraga a linha do tempo", ACAO));
-        catalogoFilmes.add(new Filme("O rei Leão", "Leão e seus amigos se preparam para a guerra pelo terreno da família", ANIMACAO));
-        catalogoFilmes.add(new Filme("A lagoa azul kkk", "Não lembro, faz tempo que vi", DRAMA));
-        ArrayList<Usuario> usuarios = new ArrayList<Usuario>(5);
-        ArrayList<HashSet<Filme>> recomendacoe = new ArrayList<HashSet<Filme>>(5);
-        usuarios.add(new Usuario("Guilherme", "Alvorada", "24/08/1995",  "lolzinhoprasempre"));
-        usuarios.add(new Usuario("Julia", "Alvorada", "20/03/2000", "12345"));
-        usuarios.add(new Usuario("Juvencio", "Alvorada", "09/03/1969","12345"));
-        System.out.println(usuarios.toString());
-        System.out.println("\nFilmes recomendados: " + usuarios.get(0).getFilmesRecomendados().toString());
+        System.out.println("--LOGIN__");
+        System.out.println("Digite seu nome de usuário: ");
+        String logedUser = scanner.nextLine();
+        System.out.println("Digite sua senha: ");
+        String logedPassword = scanner.nextLine();
+        devinflix.login(logedUser, logedPassword);
+        if (devinflix.login(logedUser, logedPassword) != null) {
 
-        while (true) {
-            devinflix.ImprimeOpcoes();
-            System.out.println("Escolha uma opção:");
-            String opcao = scanner.nextLine();
-            switch (opcao){
-                //CURTIR OU DESCURTIR FILME
-                case "1":
-                    System.out.println("Quem está fazendo a operação?");
-                    String usuarioLogado = scanner.nextLine();
-                    System.out.println("Escolha um filme do catálogo para curtir ou descurtir:");
+            HashSet<String> filmesSugeridos = new HashSet<String>();
+            HashSet<Filme> catalogoFilmes = new HashSet<Filme>();
+            catalogoFilmes.add(new Filme("Avengers Ultimato", "Os caras tretam com o Thanos", ACAO));
+            catalogoFilmes.add(new Filme("Miranha Sem Volta pra Casa", "Peter Parker estraga a linha do tempo", ACAO));
+            catalogoFilmes.add(new Filme("O rei Leão", "Leão e seus amigos se preparam para a guerra pelo terreno da família", ANIMACAO));
+            catalogoFilmes.add(new Filme("A lagoa azul kkk", "Não lembro, faz tempo que vi", DRAMA));
+            ArrayList<Usuario> usuarios = new ArrayList<Usuario>(5);
+            ArrayList<HashSet<Filme>> recomendacoe = new ArrayList<HashSet<Filme>>(5);
+            usuarios.add(new Usuario("Guilherme", "Alvorada", "24/08/1995", "lolzinhoprasempre"));
+            usuarios.add(new Usuario("Julia", "Alvorada", "20/03/2000", "12345"));
+            usuarios.add(new Usuario("Juvencio", "Alvorada", "09/03/1969", "12345"));
+            System.out.println(usuarios.toString());
+            System.out.println("\nFilmes recomendados: " + usuarios.get(0).getFilmesRecomendados().toString());
+
+            while (true) {
+                devinflix.ImprimeOpcoes();
+                System.out.println("Escolha uma opção:");
+                String opcao = scanner.nextLine();
+                switch (opcao) {
+                    //CURTIR OU DESCURTIR FILME
+                    case "1":
+                        System.out.println("Quem está fazendo a operação?");
+                        String usuarioLogado = scanner.nextLine();
+                        System.out.println("Escolha um filme do catálogo para curtir ou descurtir:");
                         for (Filme filme : catalogoFilmes) {
-                         System.out.println(filme.getTitulo());
+                            System.out.println(filme.getTitulo());
                         }
-                    String nomeFilme = scanner.nextLine();
-                    for (Filme filme : catalogoFilmes) {
-                        if (filme.getTitulo().equalsIgnoreCase(nomeFilme)) {
-                            System.out.println("Curtir ou descurtir?");
-                            String curtir = scanner.nextLine();
-                            if (curtir.equalsIgnoreCase("curtir")){
-                                for(Filme filme2 : catalogoFilmes){
-                                    if(filme2.getTitulo().equalsIgnoreCase(nomeFilme)){
-                                        filme.setCurtidas(filme.getCurtidas() + 1);
-                                        for (Usuario usuario : usuarios) {
-                                            if (usuario.getNome().equalsIgnoreCase(usuarioLogado)) {
+                        String nomeFilme = scanner.nextLine();
+                        for (Filme filme : catalogoFilmes) {
+                            if (filme.getTitulo().equalsIgnoreCase(nomeFilme)) {
+                                System.out.println("Curtir ou descurtir?");
+                                String curtir = scanner.nextLine();
+                                if (curtir.equalsIgnoreCase("curtir")) {
+                                    for (Filme filme2 : catalogoFilmes) {
+                                        if (filme2.getTitulo().equalsIgnoreCase(nomeFilme)) {
+                                            filme.setCurtidas(filme.getCurtidas() + 1);
+                                            for (Usuario usuario : usuarios) {
+                                                if (usuario.getNome().equalsIgnoreCase(usuarioLogado)) {
+                                                }
                                             }
+                                        } else if (filme2.getTitulo().equalsIgnoreCase(nomeFilme)) {
+                                            filme.setDescurtidas(filme.getDescurtidas() + 1);
+                                            break;
                                         }
-                                    }else if(filme2.getTitulo().equalsIgnoreCase(nomeFilme)){
-                                        filme.setDescurtidas(filme.getDescurtidas() + 1);
-                            break;
-                        }
+                                    }
+                                }
+                            } else {
+                                System.out.println("Filme não encontrado");
+                                break;
                             }
-                        }
-                    }else{
-                            System.out.println("Filme não encontrado");
-                            break;
-                        }
-                    }
-                    break;
-                //RECOMENDAR FILME
-                case "2":
-                    System.out.println("--RECOMENDAR FILME--");
-                    System.out.println("Escolha um usuário para recomendar o filme:");
-                    for (Usuario usuario : usuarios){
-                        System.out.println(usuario.getNome());
-                    }
-                    String nomeUsuario = scanner.nextLine();
-                    for (Usuario usuario : usuarios){
-                        if (usuario.getNome().equalsIgnoreCase(nomeUsuario)){
-                            Usuario usuarioRecomendado = usuario;
-                            System.out.println(usuarioRecomendado.getFilmesRecomendados());
-                            System.out.println(usuarioRecomendado);
-                            System.out.println("Usuario " + nomeUsuario + " escolhido");
-                            System.out.println("Escolha um filme para recomendar:");
-                            for (Filme filme : catalogoFilmes) {
-                                System.out.println(filme.getTitulo());
-                            }
-                            String filmeRecomendado = scanner.nextLine();
-                            if (usuario.getFilmesRecomendados().contains(filmeRecomendado)){
-                                System.out.println("Filme já foi recomendado");
-                            }
-                            else {
-                                System.out.println("Filme " + filmeRecomendado + " escolhido");
-                                usuarioRecomendado.addFilmes(filmeRecomendado);
-                                System.out.println(usuarioRecomendado.getFilmesRecomendados());
-                            }
-                        }
-                    }
-                    break;
-
-                //SUGERIR FILME À PLATAFORMA
-                case "3":
-                    System.out.println("-- SUGESTÃO DE FILME --");
-                    System.out.println("Qual filme gostaria de sugerir?");
-                    String filmeSugerido = scanner.nextLine();
-                    for (Filme filme : catalogoFilmes) {
-                        System.out.println(filme.getTitulo());
-                        if (filmesSugeridos.contains(filme.getTitulo())){
-                            System.out.println("Filme já foi sugerido");
-                        }else{
-                            System.out.println("Filme " + filmeSugerido + " sugerido.");
-                            filmesSugeridos.add(filmeSugerido);
-                            //teste se está sendo sugerido
-                            System.out.println(filmesSugeridos);
                         }
                         break;
-                    }
+                    //RECOMENDAR FILME
+                    case "2":
+                        System.out.println("--RECOMENDAR FILME--");
+                        System.out.println("Escolha um usuário para recomendar o filme:");
+                        for (Usuario usuario : usuarios) {
+                            System.out.println(usuario.getNome());
+                        }
+                        String nomeUsuario = scanner.nextLine();
+                        for (Usuario usuario : usuarios) {
+                            if (usuario.getNome().equalsIgnoreCase(nomeUsuario)) {
+                                System.out.println("Escolha um filme do catálogo para recomendar:");
+                                for (Filme filme : catalogoFilmes) {
+                                    System.out.println(filme.getTitulo());
+                                }
+                                String filmeRecomendado = scanner.nextLine();
+                                System.out.println("Por que você recomendaria esse filme?");
+                                String motivo = scanner.nextLine();
+                                for (Filme filme2 : catalogoFilmes) {
+                                    if (filme2.getTitulo().equalsIgnoreCase(filmeRecomendado)) {
+                                        Filme filminho = filme2;
+                                        usuario.recomendarFilme(filminho, motivo);
+                                        break;
+                                    } else {
+                                        System.out.println("Filme não encontrado");
+                                        break;
+                                    }
+
+
+                                }
+
+                            }
+                        }
+                        break;
+
+                    //SUGERIR FILME À PLATAFORMA
+                    case "3":
+                        System.out.println("-- SUGESTÃO DE FILME --");
+                        System.out.println("Qual filme gostaria de sugerir?");
+                        String filmeSugerido = scanner.nextLine();
+                        for (Filme filme : catalogoFilmes) {
+                            System.out.println(filme.getTitulo());
+                            if (filmesSugeridos.contains(filme.getTitulo())) {
+                                System.out.println("Filme já foi sugerido");
+                            } else {
+                                System.out.println("Filme " + filmeSugerido + " sugerido.");
+                                filmesSugeridos.add(filmeSugerido);
+                                //teste se está sendo sugerido
+                                System.out.println(filmesSugeridos);
+                            }
+                            break;
+                        }
+                }
             }
+        } else {
+            System.out.println("Usuário não encontrado");
+            System.out.println("Deseja cadastrar um novo usuário? (S/N)");
         }
-    }
-}
+    }}cd 

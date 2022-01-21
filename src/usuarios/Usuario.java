@@ -23,9 +23,6 @@ public class Usuario {
         this.endereco = endereco;
         this.dataNascimento = dataNascimento;
         this.senha = senha;
-        this.filmesRecomendados = filmesRecomendados;
-        this.filmesCurtidos = filmesCurtidos;
-        this.filmesDescurtidos = filmesDescurtidos;
     }
 
     public Usuario(String nome, String dataNascimento) {
@@ -104,7 +101,8 @@ public class Usuario {
     }
 
     public void recomendarFilme(Filme filme, String motivo) {
-        System.out.println(this.nome + " recomendou o filme " + filme.getTitulo() + " porque " + motivo);
+        System.out.println(this.nome + " recomendou o filme " + filme.getTitulo() + " \nMotivo: " + motivo);
+        filmesRecomendados.add(filme.getTitulo());
     }
 
     @Override
